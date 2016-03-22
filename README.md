@@ -1,133 +1,133 @@
-# Project: Raspberry Pi + Alexa Voice Service
+# Proyecto: Raspberry Pi + Alexa Voice Service
 
-## About the Project
-This project demonstrates how to access and test the Alexa Voice Service using a Java client (running on a Raspberry Pi), and a Node.js server. You will be using the Node.js server to get a Login with Amazon authorization code by visiting a website using your computer's (Raspberry Pi in this case) web browser. 
+## Acerca del proyecto
+Este proyecto demuestra cómo acceder y probar el Alexa Voice Service mediante un cliente Java (que se ejecuta en una Raspberry Pi) y un servidor Node.js. Utilizarás el servidor Node.js para obtener un código de autorización de inicio de sesión con Amazon visitando un sitio web con el navegador web de tu computadora (Raspberry Pi en este caso).
 
-This guide provides step-by-step instructions for obtaining the sample code, the dependencies, and the hardware you need to get the reference implementation running on your Pi.
+Esta guía proporciona instrucciones paso a paso para obtener el código de muestra, las dependencias y el hardware que necesitas para ejecutar la implementación de referencia en tu Pi.
 
 ![](assets/rpi-5.jpg)
 
 ___
 
-## Getting Started
+## Primeros pasos
 
-### Hardware you need
+### Hardware que necesitas
 
-1. **Raspberry Pi 2 (Model B)**  - [Buy at Amazon](http://amzn.com/B00T2U7R7I)
-2. **Micro-USB power cable** for Raspberry Pi (included with Raspberry Pi)
-3. **Micro SD Card** - To get started with Raspberry Pi you need an operating system. NOOBS (New Out Of the Box Software) is an easy-to-use operating system install manager for the Raspberry Pi. The simplest way to get NOOBS is to buy an SD card with NOOBS preinstalled - [Raspberry Pi 8GB Preloaded (NOOBS) Micro SD Card](https://www.amazon.com/gp/product/B00ENPQ1GK/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1) 
-4. An **Ethernet cable**
-5. **USB 2.0 Mini Microphone** - Raspberry Pi does not have a built-in microphone; to interact with Alexa you'll need an external one to plug in - [Buy at Amazon](http://amzn.com/B00IR8R7WQ)
-6. A **USB Keyboard & Mouse**, and an external **HDMI Monitor** - we also recommend having a USB keyboard and mouse as well as an HDMI monitor handy if for some reason you can’t “SSH” into your Raspberry Pi. More on “SSH” later. 
-7. WiFi Wireless Adapter (Optional) [Buy at Amazon](http://www.amazon.com/CanaKit-Raspberry-Wireless-Adapter-Dongle/dp/B00GFAN498/)
+1. **Raspberry Pi 2 (modelo B)** -[Buy at Amazon](http://amzn.com/B00T2U7R7I)
+2. **Cable de alimentación micro-USB** para Raspberry Pi (incluido con Raspberry Pi)
+3. **Tarjeta Micro SD**: para comenzar a usar Raspberry Pi, necesita un sistema operativo. NOOBS (New Out Of the Box Software) es un administrador de instalación de sistemas operativos fácil de usar para Raspberry Pi. La forma más sencilla de obtener NOOBS es comprar una tarjeta SD con NOOBS preinstalado. [Raspberry Pi 8GB Preloaded (NOOBS) Micro SD Card](https://www.amazon.com/gp/product/B00ENPQ1GK/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1) 
+4. Un **cable Ethernet**
+5. **Mini micrófono USB 2.0**: Raspberry Pi no tiene un micrófono incorporado; para interactuar con Alexa necesitarás uno externo para conectar. [Buy at Amazon](http://amzn.com/B00IR8R7WQ)
+6. Un **teclado y ratón USB** y un **monitor HDMI** externo: también recomendamos tener a mano un teclado y un ratón USB, así como un monitor HDMI, si por alguna razón no puedes conectarte por SSH a tu Raspberry Pi. Más adelante hablaremos más sobre SSH.
+7. Adaptador inalámbrico WiFi (opcional) [Buy at Amazon](http://www.amazon.com/CanaKit-Raspberry-Wireless-Adapter-Dongle/dp/B00GFAN498/)
 
-### Skills you need
+### Habilidades que necesitas
 
-1. Basic programming experience
-2. Familiarity with shell
+1. Experiencia básica en programación
+2. Familiaridad con el shell
 
 ---
 
-##  0 - Setting up the Raspberry Pi
+## 0 - Configuración de la Raspberry Pi
 ![](assets/raspberry-pi-b-plus3info.jpg)
 
-1. Insert the micro SD card with NOOBS preinstalled into the micro SD card slot on your Raspberry Pi. 
+1. Inserte la tarjeta micro SD con NOOBS preinstalado en la ranura para tarjeta micro SD de su Raspberry Pi. 
 ![](assets/rpi-3.jpg)
-2. Plug in the USB 2.0 Mini Microphone, and the (optional) WiFi Wireless Adapter.
-3. Plug in your USB keyboard and mouse. 
-4. Connect your monitor using the HDMI port. 
+2. Conecte el mini micrófono USB 2.0 y el adaptador inalámbrico WiFi (opcional).
+3. Conecte el teclado y el mouse USB.
+4. Conecte el monitor mediante el puerto HDMI.
 
 ![](assets/rpi-2.jpg)
 ![](assets/rpi-4.jpg)
 
 
-##  1 - Booting up the Raspberry Pi
+## 1 - Arranque de la Raspberry Pi
 
-1. Now plug in the USB power cable to your Pi.
-2. Your Raspberry Pi will boot, and a window will appear with a list of different operating systems that you can install. 
-3. Tick the box next to **Raspbian** and click on **Install**.
+1. Ahora conecte el cable de alimentación USB a su Pi.
+2. Su Raspberry Pi se iniciará y aparecerá una ventana con una lista de diferentes sistemas operativos que puede instalar.
+3. Marque la casilla junto a **Raspbian** y haga clic en **Instalar**.
 
 	![](assets/noobs_setup.png)
 
-4. Raspbian will then run through its installation process. *Note: this can take a while*.
-5. When the installation process has completed, the Raspberry Pi configuration menu (raspi-config) will load. Here you can set the time and date for your region and enable a Raspberry Pi camera board, or even create users. You can exit this menu by using Tab on your keyboard to move to **Finish**.
+4. A continuación, Raspbian ejecutará el proceso de instalación. *Nota: esto puede tardar un rato*.
+5. Cuando se haya completado el proceso de instalación, se cargará el menú de configuración de Raspberry Pi (raspi-config). Aquí puede configurar la fecha y la hora de su región y habilitar una placa de cámara Raspberry Pi, o incluso crear usuarios. Puede salir de este menú utilizando la tecla Tab en su teclado para ir a **Finalizar**.
 	![](assets/raspi-config.jpg)
-6. Once rebooted, login to your Raspberry Pi. The default login for Raspbian is username **pi** with the password **raspberry**
+6. Una vez reiniciado, inicia sesión en tu Raspberry Pi. El nombre de usuario predeterminado para Raspbian es **pi** y la contraseña **raspberry**.
 
-**NOTE**: To load the graphical user interface at any time type **startx** into the command line. 
+**NOTA**: Para cargar la interfaz gráfica de usuario en cualquier momento, escribe **startx** en la línea de comandos. 
 
-More info: [raspberrypi.org](https://www.raspberrypi.org/help/noobs-setup/)
+Más información: [raspberrypi.org](https://www.raspberrypi.org/help/noobs-setup/)
 
 ___
 
-## 2 - Installing utilities & dependencies
+## 2 - Instalación de utilidades y dependencias
 
-**NOTE**: You will be using the **Terminal** utility on the Raspberry Pi to install the utilities you need for this Alexa Voice Service walkthrough. Terminal comes preinstalled on the Raspberry Pi, and you can get to it from the Desktop. You can learn more about Terminal [here](https://www.raspberrypi.org/documentation/usage/terminal/).
+**NOTA**: Utilizarás la utilidad **Terminal** en la Raspberry Pi para instalar las utilidades que necesitas para este tutorial del Servicio de voz de Alexa. La Terminal viene preinstalada en la Raspberry Pi y puedes acceder a ella desde el escritorio. Puedes obtener más información sobre la Terminal [here](https://www.raspberrypi.org/documentation/usage/terminal/).
 
 ![](assets/raspberry-pi-terminal-icon.png)
 
 ![](assets/raspberry-pi-terminal.png)
 
-### 2.1 - Enable SSH on Raspberry Pi
-SSH allows you to remotely gain access to the command line of a Raspberry Pi from another computer (as long as they are both on the same network). This removes the requirement to have an external monitor connected to your Raspberry Pi.
+### 2.1 - Habilitar SSH en Raspberry Pi
+SSH le permite obtener acceso remoto a la línea de comandos de una Raspberry Pi desde otra computadora (siempre que ambas estén en la misma red). Esto elimina el requisito de tener un monitor externo conectado a su Raspberry Pi.
 
-SSH is **enabled by default** on Raspberry Pi. If you run into problems getting SSH to work, make sure it’s enabled. This is done using the [raspi-config](https://www.raspberrypi.org/documentation/remote-access/ssh/README.md) utility. 
+SSH está **habilitado de manera predeterminada** en Raspberry Pi. Si tiene problemas para que funcione SSH, asegúrese de que esté habilitado. Esto se hace usando el [raspi-config](https://www.raspberrypi.org/documentation/remote-access/ssh/README.md) utilidad. 
 
-Type the following in the Terminal: 
+Escriba lo siguiente en la terminal: 
 
  	sudo raspi-config
 
-Then navigate to SSH, hit Enter and select Enable SSH server.
+Luego navegue hasta SSH, presione Enter y seleccione Habilitar servidor SSH.
 
 ![](assets/ssh_raspi-config.png)
 
-### 2.2 - SSH into the Raspberry Pi
+### 2.2 - Acceda a la Raspberry Pi por SSH
 
-Now let's SSH into your Raspberry Pi. To do that, you need to know the IP address of your Raspberry Pi.
+Ahora, acceda a su Raspberry Pi por SSH. Para ello, debe conocer la dirección IP de su Raspberry Pi.
 
-Type this command into the terminal: 
+Escriba este comando en la terminal: 
 
 	hostname -I
-	> 192.168.1.10 //this is an example Raspberry Pi’s hostname, it would be different for you
+	> 192.168.1.10 //Este es un ejemplo de nombre de host de Raspberry Pi, sería diferente para usted
 
-If you’re on a Windows PC, follow the instructions here to [SSH Using windows](https://www.raspberrypi.org/documentation/remote-access/ssh/windows.md)
+Si está en una PC con Windows, siga las instrucciones aquí para [SSH Using windows](https://www.raspberrypi.org/documentation/remote-access/ssh/windows.md)
 
-Now that you know the IP address of your Raspberry Pi, you are ready to connect to it remotely using SSH. To do this, open the terminal utility on the computer you would like to connect from and type the following:
+Ahora que ya conoce la dirección IP de su Raspberry Pi, está listo para conectarse a ella de forma remota mediante SSH. Para ello, abra la utilidad de terminal en la computadora desde la que desea conectarse y escriba lo siguiente:
 
 	pi@<YOUR Raspberry Pi IP ADDRESS>
 
-It will prompt you for your password. *NOTE*: the default password for the user pi is **raspberry**
+Le solicitará su contraseña. *NOTA*: la contraseña predeterminada para el usuario pi es **raspberry**
 
-Voila! You’re now remotely connected to your Raspberry Pi. Now you’ll install all the utilities while connected remotely via SSH. 
+¡Listo! Ya estás conectado de forma remota a tu Raspberry Pi. Ahora instalarás todas las utilidades mientras estás conectado de forma remota a través de SSH.
 
-### 2.3 Install VNC Server
+### 2.3 Instalar el servidor VNC
 
-VNC is a graphical desktop sharing system that will allow you to remotely control the desktop interface of your Raspberry Pi from another computer. This will come in very handy as you get rid of the external monitor connected to your Raspberry Pi.
+VNC es un sistema gráfico de uso compartido del escritorio que te permitirá controlar de forma remota la interfaz del escritorio de tu Raspberry Pi desde otra computadora. Esto te resultará muy útil cuando te deshagas del monitor externo conectado a tu Raspberry Pi.
 
 	sudo apt-get install tightvncserver
 
-**Start VNC Server**
+**Iniciar el servidor VNC**
 
-To start the VNC Server, type: 
+Para iniciar el servidor VNC, escriba: 
 	tightvncserver
 
-**Run VNCServer at Startup**
+**Ejecutar VNCServer al iniciar**
 
-You want to make sure the VNC Server runs automatically after the Raspberry Pi reboots, so you don’t have to manually start it each time with the command *tightvncserver* through SSH. To do that, type the following in the terminal:
+Quiere asegurarse de que el servidor VNC se ejecute automáticamente después de reiniciar Raspberry Pi, de modo que no tenga que iniciarlo manualmente cada vez con el comando *tightvncserver* a través de SSH. Para ello, escriba lo siguiente en la terminal:
 
 	cd /home/pi
 	cd .config
 
-Note the '.' at the start of the folder name. This makes it a hidden folder that will not show up when you type 'ls'.
+Tenga en cuenta el "." al comienzo del nombre de la carpeta. Esto la convierte en una carpeta oculta que no aparecerá cuando escriba "ls".
 
 	mkdir autostart
 	cd autostart
 
-Create a new configuration by typing the following command:
+Cree una nueva configuración escribiendo el siguiente comando:
 
 	nano tightvnc.desktop
 
-Edit the contents of the file with the following text:
+Edite el contenido del archivo con el siguiente texto:
 
 	[Desktop Entry]
 	Type=Application
@@ -135,57 +135,57 @@ Edit the contents of the file with the following text:
 	Exec=vncserver :1
 	StartupNotify=false
 
-Type **ctrl-X** and then **Y** to save the changes to the file.
+Escriba **ctrl-X** y luego **Y** para guardar los cambios en el archivo.
 
-That's it. The next time you reboot the VNC server will restart automatically.
+Eso es todo. La próxima vez que reinicie, el servidor VNC se reiniciará automáticamente.
 
-**Connecting to Raspberry Pi via VNC**
+**Conexión a Raspberry Pi a través de VNC**
 
-- **Mac**: See https://www.raspberrypi.org/documentation/remote-access/vnc/mac.md
+- **Mac**: Ver https://www.raspberrypi.org/documentation/remote-access/vnc/mac.md
 - **Windows**: https://www.raspberrypi.org/documentation/remote-access/vnc/windows.md
 - **Linux**: https://www.raspberrypi.org/documentation/remote-access/vnc/linux.md
 
-**You may now disconnect the Monitor, keyboard and mouse (if you like)**. Now with SSH (allows remote access to the terminal) and VNC (allows you to remote control the Raspberry Pi’s desktop interface) installed, the external monitor is optional. Feel free to disconnect it from the Raspberry Pi.
+**Ahora puedes desconectar el monitor, el teclado y el mouse (si lo deseas)**. Ahora que tienes instalado SSH (permite el acceso remoto a la terminal) y VNC (permite controlar de forma remota la interfaz de escritorio de Raspberry Pi), el monitor externo es opcional. Puedes desconectarlo de Raspberry Pi sin problemas.
 
-### 2.4 - Install VLC
+### 2.4 - Instalar VLC
 
-Get VLC media player by typing:
+Obtenga el reproductor multimedia VLC escribiendo:
 
 	sudo apt-get install vlc-nox vlc-data
 
 
-**NOTE**: If you are running on Raspberry Pi and already have VLC installed, you will need to remove two conflicting libraries by running the following commands:
+**NOTA**: Si está utilizando Raspberry Pi y ya tiene VLC instalado, deberá eliminar dos bibliotecas en conflicto ejecutando los siguientes comandos:
 
 	sudo apt-get remove --purge vlc-plugin-notify
 	sudo rm /usr/lib/vlc/plugins/codec/libsdl_image_plugin.so
 
-**Unable to fetch errors**
-If you run into some "Unable to fetch" errors while trying to install VLC, try the following: 	
+**Errores de no poder obtener la información**
+Si te encuentras con algunos errores de "No poder obtener la información" al intentar instalar VLC, prueba lo siguiente: 	
 
 	sudo apt-get update
 	sudo apt-get upgrade
 	sudo apt-get install vlc-nox vlc-data
-	
-Source: https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=67399
-	
-**Make sure VLC is installed correctly**
+
+Fuente: https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=67399
+
+**Asegúrese de que VLC esté instalado correctamente**
 
 	whereis vlc
 
-This will tell you where VLC is installed.
+Esto le dirá dónde está instalado VLC.
 
-Most programs are stored in `/usr/bin`. On my Raspberry Pi, I see:
+La mayoría de los programas se almacenan en `/usr/bin`. En mi Raspberry Pi, veo:
 
 	vlc: /usr/bin/vlc /usr/lib/vlc /usr/share/vlc /usr/share/man/man1/vlc.1.gz
 
-**Set the environment variables for VLC**
+**Establecer las variables de entorno para VLC**
 
-Type the following into the terminal:
+Escriba lo siguiente en la terminal:
 
 	export LD_LIBRARY_PATH=/usr/lib/vlc
 	export VLC_PLUGIN_PATH=/usr/lib/vlc/plugins
 
-**Check if the environment variables were set successfully** 
+**Comprueba si las variables de entorno se configuraron correctamente**
 
 	echo $LD_LIBRARY_PATH
 	> /usr/lib/vlc
@@ -194,43 +194,43 @@ Type the following into the terminal:
 	> /usr/lib/vlc/plugins
 
 
-### 2.5 Download and install Node.js
+### 2.5 Descargue e instale Node.js
 
-Verify Node isn't already installed. It should print 'command not found'.
+Verifique que Node no esté instalado. Debería aparecer el mensaje "comando no encontrado".
 
 	node —version
 	> command not found
 
-Now type: 
+Ahora escribe: 
 
 	sudo apt-get update 
 	sudo apt-get upgrade
 
-Set up the apt-get repo source:
+Configurar la fuente del repositorio apt-get:
 
 	curl -sL https://deb.nodesource.com/setup | sudo bash -
 
-Install Node itself:
+Instalar Node en sí:
 
 	sudo apt-get install nodejs	
 
-### 2.6 Install Java Development Kit
+### 2.6 Instalar el kit de desarrollo de Java
 
-You need to have Java Development Kit (JDK) version 8 or higher installed on the Raspberry Pi. 
+Debe tener instalado en la Raspberry Pi la versión 8 o superior del Java Development Kit (JDK).
 
-**Step 1: Download JDK**
-Assuming this is a fresh Raspberry Pi and you do not already have JDK installed, you'll need to download JDK 8 from [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). The binary you are looking for is **Linux ARM 32 Hard Float ABI**.
+**Paso 1: Descargar JDK**
+Suponiendo que se trata de una Raspberry Pi nueva y que aún no tiene instalado el JDK, deberá descargar el JDK 8 desde [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). El binario que estás buscando es **Linux ARM 32 Hard Float ABI**.
 
-Download the tar.gz file jdk-8u73-linux-arm32-vfp-hflt.tar.gz from the Oracle link above.
+Descargue el archivo tar.gz jdk-8u73-linux-arm32-vfp-hflt.tar.gz desde el enlace de Oracle anterior.
 
-**NOTE**: Although there is a 64-bit ARMv8 that Apple and some other smartphones use, there are no raspberry 64-bit ARM processors on pis yet. More info: [Raspberry Piblog.com](http://www.Raspberry Piblog.com/2014/03/installing-oracle-jdk-8-on-raspberry-pi.html)
+**NOTA**: Si bien existe un ARMv8 de 64 bits que Apple y otros teléfonos inteligentes utilizan, aún no hay procesadores ARM de 64 bits para Raspberry Pi en los PSI. Más información: [Raspberry Piblog.com](http://www.Raspberry Piblog.com/2014/03/installing-oracle-jdk-8-on-raspberry-pi.html)
 
-**Step 2: Extract the contents**
-Extract the contents of the tarball to the /opt directory:
+**Paso 2: Extraer el contenido**
+Extraiga el contenido del archivo tar al directorio /opt:
 
 	sudo tar zxvf jdk-8u73-linux-arm32-vfp-hflt.tar.gz -C /opt
-	
-Set default java and javac to the new installed jdk8.
+
+Establezca java y javac predeterminados en el nuevo jdk8 instalado.
 
 	sudo update-alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_73/bin/javac 1
 	
@@ -239,81 +239,81 @@ Set default java and javac to the new installed jdk8.
 	sudo update-alternatives --config javac
 	sudo update-alternatives --config java
 
-**NOTE**: If asked to choose an alternative, type the number corresponding to the jdk version you just installed - for example - jdk1.8.0_73
+**NOTA**: Si se le pide que elija una alternativa, escriba el número correspondiente a la versión de jdk que acaba de instalar, por ejemplo, jdk1.8.0_73
 
-Now verify the commands with the -version option:
+Ahora verifique los comandos con la opción -version:
 
 	java -version
 	javac -version
 
-### 2.7 Install Maven
+### 2.7 Instalar Maven
 
-**Step 1: Download Maven** 
+**Paso 1: Descargar Maven**
 
-Download the Binary tar.gz file apache-maven-3.3.9-bin.tar.gz from https://maven.apache.org/download.cgi 
+Descarga el archivo binario tar.gz apache-maven-3.3.9-bin.tar.gz desde https://maven.apache.org/download.cgi 
 
-**Step 2: Extract the contents**
-Extract the contents of the tarball to the /opt directory
+**Paso 2: Extraer el contenido**
+Extraiga el contenido del archivo tar al /opt directory
 
 	sudo tar zxvf apache-maven-3.3.9-bin.tar.gz	-C /opt
 
-**Step 3: Tell your shell where to find maven** 
-You’ll do this in the system profile settings so it is available to all users.
+**Paso 3: Indica a tu shell dónde encontrar Maven**
+Harás esto en la configuración del perfil del sistema para que esté disponible para todos los usuarios.
 
-Create a new file /etc/profile.d/maven.sh, and type the following inside it:
+Cree un nuevo archivo /etc/profile.d/maven.sh y escriba lo siguiente dentro de él:
 
 	export M2_HOME=/opt/apache-maven-3.3.9
 	export PATH=$PATH:$M2_HOME/bin
 
-Save the file. Log out and back into the Raspberry Pi so the profile script takes effect. You can test that it is working with the following command:
+Guarde el archivo. Cierre sesión y vuelva a iniciarla en Raspberry Pi para que el script de perfil surta efecto. Puede probar que funciona con el siguiente comando:
 
 	mvn -version
 
 ---
 
-## 3 - Getting started with Alexa Voice Service
+## 3 - Introducción al servicio de voz de Alexa
 
-### 3.1 Register for a free Amazon Developer Account
-[Get a free Amazon developer account](https://developer.amazon.com/login.html) if you do not already have one.
+### 3.1 Regístrese para obtener una cuenta gratuita de desarrollador de Amazon
+[Get a free Amazon developer account](https://developer.amazon.com/login.html) Si aún no tienes uno.
 
 ![](assets/login-amazon-dev-portal.png)
-### 3.2 Download the sample app code and dependencies on the Raspberry Pi
+### 3.2 Descargue el código de la aplicación de muestra y las dependencias en Raspberry Pi
 
-[Download](https://github.com/amzn/alexa-avs-raspberry-pi.git) the sample apps zip file. By downloading this package, you agree to the [Alexa Voice Service Agreement](https://developer.amazon.com/edw/avs_agreement.html).
+[Download](https://github.com/amzn/alexa-avs-raspberry-pi.git) El archivo zip de aplicaciones de muestra. Al descargar este paquete, acepta los términos y condiciones. [Alexa Voice Service Agreement](https://developer.amazon.com/edw/avs_agreement.html).
 
-### 3.3 Copy and expand the .zip file on your Raspberry Pi
+### 3.3 Copia y expande el archivo .zip en tu Raspberry Pi
 
-1. Unless you downloaded the zip file on your Raspberry Pi directly, copy and then expand the zip file on your Raspberry Pi. 
-2. Make note of its location on your Raspberry Pi. Further instructions will refer to this location as \<REFERENCE_IMPLEMENTATION>
+1. A menos que hayas descargado el archivo zip directamente en tu Raspberry Pi, copia y luego expande el archivo zip en tu Raspberry Pi.
+2. Toma nota de su ubicación en tu Raspberry Pi. En las instrucciones posteriores, esta ubicación se mencionará como \<REFERENCE_IMPLEMENTATION>
 
 ![](assets/sample-code-file-list.png)
 
-### 3.4 Register your product and create a security profile.
+### 3.4 Registre su producto y cree un perfil de seguridad.
 
-1. Login to Amazon Developer Portal - [developer.amazon.com](https://developer.amazon.com/)
-2. Click on Apps & Services tab -> Alexa -> Alexa Voice Service -> Get Started
+1. Inicie sesión en el Portal para desarrolladores de Amazon - [developer.amazon.com](https://developer.amazon.com/)
+2. Haga clic en la pestaña Aplicaciones y servicios -> Alexa -> Servicio de voz de Alexa -> Comenzar
 ![](assets/avs-navigation.png)
-3. In the Register a Product Type menu, select **Device**.
+3. En el menú Registrar un tipo de producto, seleccione **Dispositivo**.
 	![](assets/avs-choose-device.png)
-4. Fill in and save the following values:
-	
-**Device Type Info**
+4. Complete y guarde los siguientes valores:
 
-1. Device Type ID: **my_device**
-2. Display Name: **My Device**
-3. Click **Next**
+**Información del tipo de dispositivo**
+
+1. ID del tipo de dispositivo: **my_device**
+2. Nombre para mostrar: **My Device**
+3. Haga clic en **Next**
 
 ![](assets/avs-device-type-info.png)
 
-**Security Profile**
+**Perfil de seguridad**
 
-1. Click on the Security Profile dropdown and choose “**Create a new profile**”
+1. Haga clic en el menú desplegable Perfil de seguridad y seleccione “**Crear un nuevo perfil**”
 	![](assets/avs-create-new-security-profile.png)
 
-2. **General Tab**
-	- **Security Profile Name**: Alexa Voice Service Sample App Security Profile
-	- **Security Profile Description**: Alexa Voice Service Sample App Security Profile Description
-	- Click **Next**
+2. **Pestaña General**
+- **Nombre del perfil de seguridad**: Perfil de seguridad de la aplicación de muestra del servicio de voz de Alexa
+- **Descripción del perfil de seguridad**: Descripción del perfil de seguridad de la aplicación de muestra del servicio de voz de Alexa
+- Haga clic en **Siguiente**
 	
 	![](assets/avs-security-profile.png)
 	
@@ -497,7 +497,7 @@ Navigate to the following file and open it in a text editor.
 
 -
 
-	\<REFERENCE_IMPLEMENTATION>/samples/javaclient/pom.xml	
+	<REFERENCE_IMPLEMENTATION>/samples/javaclient/pom.xml	
 
 Add the following to the pom.xml in the **< dependencies >** section:
 
@@ -517,7 +517,7 @@ ___
 
 In your terminal window or from the command prompt, type: 
 
-	cd \<REFERENCE_IMPLEMENTATION>/samples/companionService
+	cd <REFERENCE_IMPLEMENTATION>/samples/companionService
 	npm start
 
 ![](assets/start-server.png)
@@ -533,7 +533,7 @@ Open a new terminal window/tab (SHIFT+CTRL+TAB in Raspbian)
 
 ![](assets/start-client.png)
 
-	cd \<REFERENCE_IMPLEMENTATION>/samples/javaclient
+	cd <REFERENCE_IMPLEMENTATION>/samples/javaclient
 
 
 **Upgrade your Java version**
